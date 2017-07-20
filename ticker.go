@@ -5,9 +5,10 @@ type Ticker struct {
     stopped  int32
 }
 
-// terminateメソッドが呼ばれるまで {"tick": カウント}を発行し続ける。 tupleだから()か？
+// terminateメソッドが呼ばれるまで {"tick": カウント}を発行し続ける
 func (t *Ticker) Process(ctx *core.Context, tuple *core.Tuple, w core.Writer) error {
     var i int64
+	// terminateメソッドでStoreInt32を実行している
     for ; atomic.LoadInt32(&t.stopped) == 0; i++ {
         newTuple := core.NewTuple(data.Map{"tick": data.Int(i)})
         if err := w.Write(ctx, newTuple); err != nil {

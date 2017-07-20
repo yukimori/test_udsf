@@ -1,4 +1,4 @@
-package udsfs
+package test_udsf
 
 import (
     "math/rand"
