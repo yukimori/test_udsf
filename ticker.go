@@ -1,3 +1,14 @@
+package test_udsf
+
+import (
+	"sync/atomic"
+	"time"
+
+	"gopkg.in/sensorbee/sensorbee.v0/bql/udf"
+	"gopkg.in/sensorbee/sensorbee.v0/core"
+	"gopkg.in/sensorbee/sensorbee.v0/data"
+)
+
 // ソースタイプのUDSFの例
 
 type Ticker struct {
@@ -22,4 +33,16 @@ func (t *Ticker) Process(ctx *core.Context, tuple *core.Tuple, w core.Writer) er
 func (t *Ticker) Terminate(ctx *core.Context) error {
     atomic.StoreInt32(&t.stopped, 1)
     return nil
+}
+
+// plugin.goで利用する
+// udf.MustRegisterGlobalUDSFCreatorで利用
+func CreateTicker(decl udf.UDSFDeclarer, i data.Value) (udf.UDSF, error) {
+	interval, err := data.ToDuration(i)
+	if err != nil {
+		return nil, err
+	}
+	return &Ticker{
+		interval: interval,
+	}, nil
 }

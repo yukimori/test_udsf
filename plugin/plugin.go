@@ -1,5 +1,6 @@
 package plugin
 
+// yukimori/test_udsfをimportしないとtest_udsf.CreateLoremSourceなどが参照できない
 import (
     "gopkg.in/sensorbee/sensorbee.v0/bql"
     "gopkg.in/sensorbee/sensorbee.v0/bql/udf"
@@ -8,7 +9,7 @@ import (
 )
 
 func init() {
-	bql.MustRegisterGlobalSourceCreator("lorem", bql.SourceCreatorFunc(udsfs.CreateLoremSource))
-	udf.MustRegisterGlobalUDSFCreator("word_splitter", udf.MustConvertToUDSFCreator(udsfs.CreateWordSplitter))
-    udf.MustRegisterGlobalUDSFCreator("ticker", udf.MustConvertToUDSFCreator(udsfs.CreateTicker))
+	bql.MustRegisterGlobalSourceCreator("lorem", bql.SourceCreatorFunc(test_udsf.CreateLoremSource))
+	udf.MustRegisterGlobalUDSFCreator("word_splitter", udf.MustConvertToUDSFCreator(test_udsf.CreateWordSplitter))
+    udf.MustRegisterGlobalUDSFCreator("ticker", udf.MustConvertToUDSFCreator(test_udsf.CreateTicker))
 }
